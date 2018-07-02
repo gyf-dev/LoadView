@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LoadView">
+        <attr name="load_gravity">
+            <flag name="top" value="0x30" />
+            <flag name="bottom" value="0x50" />
+            <flag name="left" value="0x03" />
+            <flag name="right" value="0x05" />
+            <flag name="center_vertical" value="0x10" />
+            <flag name="fill_vertical" value="0x70" />
+            <flag name="center_horizontal" value="0x01" />
+            <flag name="fill_horizontal" value="0x07" />
+            <flag name="center" value="0x11" />
+            <flag name="fill" value="0x77" />
+            <flag name="clip_vertical" value="0x80" />
+            <flag name="clip_horizontal" value="0x08" />
+            <flag name="start" value="0x00800003" />
+            <flag name="end" value="0x00800005" />
+        </attr>
+
+        <attr name="load_loading_gravity">
+            <flag name="top" value="0x30" />
+            <flag name="bottom" value="0x50" />
+            <flag name="left" value="0x03" />
+            <flag name="right" value="0x05" />
+            <flag name="center_vertical" value="0x10" />
+            <flag name="fill_vertical" value="0x70" />
+            <flag name="center_horizontal" value="0x01" />
+            <flag name="fill_horizontal" value="0x07" />
+            <flag name="center" value="0x11" />
+            <flag name="fill" value="0x77" />
+            <flag name="clip_vertical" value="0x80" />
+            <flag name="clip_horizontal" value="0x08" />
+            <flag name="start" value="0x00800003" />
+            <flag name="end" value="0x00800005" />
+        </attr>
+
+        <attr name="load_image_text_gravity">
+            <flag name="top" value="0x30" />
+            <flag name="bottom" value="0x50" />
+            <flag name="left" value="0x03" />
+            <flag name="right" value="0x05" />
+            <flag name="center_vertical" value="0x10" />
+            <flag name="fill_vertical" value="0x70" />
+            <flag name="center_horizontal" value="0x01" />
+            <flag name="fill_horizontal" value="0x07" />
+            <flag name="center" value="0x11" />
+            <flag name="fill" value="0x77" />
+            <flag name="clip_vertical" value="0x80" />
+            <flag name="clip_horizontal" value="0x08" />
+            <flag name="start" value="0x00800003" />
+            <flag name="end" value="0x00800005" />
+        </attr>
+
+        <attr name="load_margin" format="dimension" />
+        <attr name="load_margin_left" format="dimension" />
+        <attr name="load_margin_top" format="dimension" />
+        <attr name="load_margin_right" format="dimension" />
+        <attr name="load_margin_bottom" format="dimension" />
+
+        <attr name="load_loading_margin" format="dimension" />
+        <attr name="load_loading_margin_left" format="dimension" />
+        <attr name="load_loading_margin_top" format="dimension" />
+        <attr name="load_loading_margin_right" format="dimension" />
+        <attr name="load_loading_margin_bottom" format="dimension" />
+
+        <attr name="load_image_text_margin" format="dimension" />
+        <attr name="load_image_text_margin_left" format="dimension" />
+        <attr name="load_image_text_margin_top" format="dimension" />
+        <attr name="load_image_text_margin_right" format="dimension" />
+        <attr name="load_image_text_margin_bottom" format="dimension" />
+
+        <attr name="load_image_margin" format="dimension" />
+        <attr name="load_image_margin_left" format="dimension" />
+        <attr name="load_image_margin_top" format="dimension" />
+        <attr name="load_image_margin_right" format="dimension" />
+        <attr name="load_image_margin_bottom" format="dimension" />
+
+        <attr name="load_text_margin" format="dimension" />
+        <attr name="load_text_margin_left" format="dimension" />
+        <attr name="load_text_margin_top" format="dimension" />
+        <attr name="load_text_margin_right" format="dimension" />
+        <attr name="load_text_margin_bottom" format="dimension" />
+
+        <attr name="load_text_fail" format="string" />
+        <attr name="load_text_error_net" format="string" />
+        <attr name="load_text_empty" format="string" />
+
+        <attr name="load_res_fail" format="reference" />
+        <attr name="load_res_error_net" format="reference" />
+        <attr name="load_res_empty" format="reference" />
+
+        <attr name="load_text_color" format="color" />
+        <attr name="load_text_color_fail" format="color" />
+        <attr name="load_text_color_error_net" format="color" />
+        <attr name="load_text_color_empty" format="color" />
+
+        <attr name="load_image_color" format="color" />
+        <attr name="load_image_color_fail" format="color" />
+        <attr name="load_image_color_error_net" format="color" />
+        <attr name="load_image_color_empty" format="color" />
+
+        <attr name="load_text_size" format="dimension" />
+
+        <attr name="load_default_loading_color" format="color" />
+
+        <attr name="load_image_color_enabled" format="boolean" />
+        <attr name="load_image_color_fail_enabled" format="boolean" />
+        <attr name="load_image_color_error_net_enabled" format="boolean" />
+        <attr name="load_image_color_empty_enabled" format="boolean" />
+
+    </declare-styleable>
+</resources>
