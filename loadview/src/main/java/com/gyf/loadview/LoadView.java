@@ -674,7 +674,7 @@ public class LoadView extends FrameLayout {
     }
 
     /**
-     * 设置加载成功文字
+     * 设置加载网络错误文字
      *
      * @param errorNetText the error net text
      */
