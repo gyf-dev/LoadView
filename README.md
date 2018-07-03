@@ -10,7 +10,7 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
    ```
 ## 用法
 ### 简单用法
-- 使用一
+- 使用一，默认加载Loading是ProgressBar圆形样式，可以通过属性修改颜色，默认是colorAccent颜色，如果想使用其他Loading样式请看使用二
  ```xml
    <com.gyf.loadview.LoadView
        android:id="@+id/load_view"
@@ -18,6 +18,7 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
        android:layout_height="match_parent" />
    ```
 - 使用二
+> 在xml中自定义loading样式
 ```xml
    <com.gyf.loadview.LoadView
        android:id="@+id/load_view"
@@ -30,6 +31,15 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
            android:layout_height="wrap_content" />
    </com.gyf.loadview.LoadView>
    ```
+> 在java中自定义loading样式
+```java
+   loadView.setLoadingView(new ProgressBar(this));
+  ```
+   或者
+   
+ ```java
+      loadView.setLoadingView(R.layut.你的布局id);
+```
 - 使用三
 ```java
    LoadView loadView = new LoadView(this);
@@ -68,12 +78,12 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
      loadView.setOnLoadingListener(new LoadView.OnLoadingListener() {
                  @Override
                  public void onLoadingStart(View loadingView) {
-                     //加载开始时
+                     //加载开始时,比如引用第三方动画库，开启动画等操作
                  }
      
                  @Override
                  public void onLoadingEnd(View loadingView) {
-                     //加载结束时
+                     //加载结束时，比如引用第三方动画库，关闭动画等操作
                  }
              });
    ```
