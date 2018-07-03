@@ -36,12 +36,11 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
    addView(loadView);
    ```
 ### 高级用法
-- 使用LoadManager自定义LoadView全局样式
+- 使用LoadManager自定义LoadView全局样式(LoadManager还有很多方法，请参考[LoadManager](https://github.com/gyf-dev/LoadView/blob/master/loadview/src/main/java/com/gyf/loadview/LoadManager.java)类，这里就不一一举例了)
 ```java
    LoadManager.getInstance().setEmpty("空的数据",R.mipmap.empty)  //自定义加载为空，展示的样式
                    .setFail("失败了",R.mipmap.fail);  //自定义加载失败，展示的样式
    ```
-   LoadManager还有很多方法，请参考[LoadManager](https://github.com/gyf-dev/LoadView/blob/master/loadview/src/main/java/com/gyf/loadview/LoadManager.java)类，这里就不一一举例了
 
 - LoadView属性和方法介绍
   
@@ -100,7 +99,7 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
   ```java
      loadView.setOnFailClickListener(new OnLoadFailClickListener())
      ```
-  >设置加载忠监听
+  >设置加载中监听
   ```java
      loadView.setOnLoadingListener(new OnLoadingListener())
      ```
