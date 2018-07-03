@@ -41,6 +41,42 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
    LoadManager.getInstance().setEmpty("空的数据",R.mipmap.empty)  //自定义加载为空，展示的样式
                    .setFail("失败了",R.mipmap.fail);  //自定义加载失败，展示的样式
    ```
+   
+- LoadView状态和方法监听
+
+  >设置当前状态
+   ```java
+          loadView.setCurrentStatus(LoadStatus.UNDO);  //默认值
+          loadView.setCurrentStatus(LoadStatus.LOADING);  //加载中
+          loadView.setCurrentStatus(LoadStatus.FAIL);  //加载失败
+          loadView.setCurrentStatus(LoadStatus.ERROR_NET);  //网络错误
+          loadView.setCurrentStatus(LoadStatus.EMPTY);   //数据为空
+          loadView.setCurrentStatus(LoadStatus.SUCCESS);  //加载成功
+    ```
+  
+  >设置加载失败监听
+  ```java
+     loadView.setOnFailClickListener(new LoadView.OnLoadFailClickListener() {
+                 @Override
+                 public void onLoadFailClick() {
+                     // do something，比如获取数据等
+                 }
+             });
+     ```
+  >设置加载中监听
+  ```java
+     loadView.setOnLoadingListener(new LoadView.OnLoadingListener() {
+                 @Override
+                 public void onLoadingStart(View loadingView) {
+                     //加载开始时
+                 }
+     
+                 @Override
+                 public void onLoadingEnd(View loadingView) {
+                     //加载结束时
+                 }
+             });
+   ```
 
 - LoadView属性和方法介绍
   
@@ -95,14 +131,7 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
   | load_image_color_empty_enabled | setEmptyImageColorEnabled() | 设置是否可以修改数据为空图片的颜色 |
   | load_default_loading_color | setDefaultLoadingColor() | 设置默认的loading的颜色 |
   
-  >设置加载失败监听
-  ```java
-     loadView.setOnFailClickListener(new OnLoadFailClickListener())
-     ```
-  >设置加载中监听
-  ```java
-     loadView.setOnLoadingListener(new OnLoadingListener())
-     ```
+      
 ## 混淆
  无
 
