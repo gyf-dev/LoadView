@@ -1,7 +1,11 @@
 # LoadView
 android loadview是一个可以灵活自定义并且可以结合第三方动画解耦的库，使用起来也是超级方便
 ## 演示
- 暂无
+- 这里除了默认loading动画，还集成了第三方动画库作为演示，比如很火的[lottie-android](https://github.com/airbnb/lottie-android),还有其他比较优秀的动画，比如[LoadingView](https://github.com/ldoublem/LoadingView)，详情见demo
+ <img width="300"  src="https://github.com/gyf-dev/Screenshots/blob/master/LoadView/loadview.gif"/>
+ 
+## 下载demo 
+### [下载](https://github.com/gyf-dev/LoadView/blob/master/apk/loadview-debug.apk) 
  
 ## 使用 
 > android studio
@@ -16,7 +20,12 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
    <com.gyf.loadview.LoadView
        android:id="@+id/load_view"
        android:layout_width="match_parent"
-       android:layout_height="match_parent" />
+       android:layout_height="match_parent"
+       app:load_image_height="100dp"
+       app:load_image_width="100dp"
+       app:load_loading_height="100dp"
+       app:load_loading_width="100dp"
+       app:load_current_status="undo"/>
    ```
 - 使用二
 > 在xml中自定义loading样式
@@ -24,12 +33,7 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
    <com.gyf.loadview.LoadView
        android:id="@+id/load_view"
        android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       app:load_image_height="100dp"
-       app:load_image_width="100dp"
-       app:load_loading_height="100dp"
-       app:load_loading_width="100dp"
-       app:load_current_status="undo">
+       android:layout_height="match_parent"/>
    
        <!--自定义loading动画，可以自定义为任何控件，也支持第三方动画库-->
        <ProgressBar
@@ -78,7 +82,16 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
                      // do something，比如获取数据等
                  }
              });
-     ```
+    ```
+  >设置网络错误监听
+    ```java
+      loadView.setOnErrorNetClickListener(new LoadView.OnLoadErrorNetClickListener() {
+                   @Override
+                   public void onLoadErrorNetClick() {
+                       // do something，比如设置网络或者获取数据等
+                   }
+               });
+    ```
   >设置加载中监听
   ```java
      loadView.setOnLoadingListener(new LoadView.OnLoadingListener() {
