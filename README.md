@@ -5,7 +5,7 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
  <img width="300"  src="https://github.com/gyf-dev/Screenshots/blob/master/LoadView/loadview.gif"/>
  
 ## 下载demo 
-### [下载](https://github.com/gyf-dev/LoadView/blob/master/apk/loadview-debug.apk) 
+### [下载](https://github.com/gyf-dev/LoadView/tree/master/apk/loadview-debug.apk) 
  
 ## 使用 
 > android studio
