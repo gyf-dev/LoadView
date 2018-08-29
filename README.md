@@ -148,9 +148,9 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
   | load_text_fail | setFailText() | 设置加载失败文字 |
   | load_text_error_net | setErrorNetText() | 设置加载网络错误文字 |
   | load_text_empty | setEmptyText() | 设置加载为空文字 |
-  | load_res_fail | setFailRes() | 设置失败的图片资源 |
-  | load_res_error_net | setErrorNetRes() | 设置网络错误的图片资源 |
-  | load_res_empty | setEmptyRes() | 设置无数据的图片资源 |
+  | load_image_fail | setFailRes() | 设置失败的图片资源 |
+  | load_image_error_net | setErrorNetRes() | 设置网络错误的图片资源 |
+  | load_image_empty | setEmptyRes() | 设置无数据的图片资源 |
   | load_text_color | setTextColor() | 设置文字的颜色 |
   | load_text_color_fail | setFailTextColor() | 设置失败展示的字体颜色 |
   | load_text_color_error_net | setErrorNetTextColor() | 设置网络加载错误展示的字体颜色 |
