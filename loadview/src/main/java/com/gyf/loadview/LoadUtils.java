@@ -8,7 +8,7 @@ import android.util.TypedValue;
  *
  * @author geyifeng
  */
-public class LoadUtils {
+class LoadUtils {
 
     /**
      * 获得colorPrimary颜色

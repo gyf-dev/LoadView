@@ -86,9 +86,9 @@
         <attr name="load_text_error_net" format="string" />
         <attr name="load_text_empty" format="string" />
 
-        <attr name="load_res_fail" format="reference" />
-        <attr name="load_res_error_net" format="reference" />
-        <attr name="load_res_empty" format="reference" />
+        <attr name="load_image_fail" format="reference" />
+        <attr name="load_image_error_net" format="reference" />
+        <attr name="load_image_empty" format="reference" />
 
         <attr name="load_text_color" format="color" />
         <attr name="load_text_color_fail" format="color" />
@@ -108,6 +108,37 @@
         <attr name="load_image_color_fail_enabled" format="boolean" />
         <attr name="load_image_color_error_net_enabled" format="boolean" />
         <attr name="load_image_color_empty_enabled" format="boolean" />
+
+        <attr name="load_image_width" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+
+        <attr name="load_image_height" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+
+        <attr name="load_loading_width" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+
+        <attr name="load_loading_height" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+        </attr>
+
+        <attr name="load_loading_clickable" format="boolean" />
+
+        <attr name="load_current_status">
+            <enum name="undo" value="0" />
+            <enum name="loading" value="1" />
+            <enum name="fail" value="2" />
+            <enum name="error_net" value="3" />
+            <enum name="empty" value="4" />
+            <enum name="success" value="5" />
+        </attr>
 
     </declare-styleable>
 </resources>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/lottie_android"
+        android:title="Lottie-Android" />
+    <item
+        android:id="@+id/lottie_a"
+        android:title="Lottie-A" />
+    <item
+        android:id="@+id/lottie_b"
+        android:title="Lottie-B" />
+    <item
+        android:id="@+id/lVFunnyBar"
+        android:title="LVFunnyBar" />
+    <item
+        android:id="@+id/lVGhost"
+        android:title="LVGhost" />
+    <item
+        android:id="@+id/lVBattery"
+        android:title="LVBattery" />
+    <item
+        android:id="@+id/lVBlock"
+        android:title="LVBlock" />
+    <item
+        android:id="@+id/lVEatBeans"
+        android:title="LVEatBeans" />
+    <item
+        android:id="@+id/lVCircularSmile"
+        android:title="LVCircularSmile" />
+    <item
+        android:id="@+id/lVFinePoiStar"
+        android:title="LVFinePoiStar" />
+    <item
+        android:id="@+id/lVBlazeWood"
+        android:title="LVBlazeWood" />
+    <item
+        android:id="@+id/catLoadingView"
+        android:title="CatLoadingView" />
+    <item
+        android:id="@+id/viscousCircleView"
+        android:title="ViscousCircleView" />
+    <item
+        android:id="@+id/gABottleLoadingView"
+        android:title="GABottleLoadingView" />
+    <item
+        android:id="@+id/slackLoadingView"
+        android:title="SlackLoadingView" />
+    <item
+        android:id="@+id/squareLoading"
+        android:title="SquareLoading" />
+    <item
+        android:id="@+id/kawaii_LoadingView"
+        android:title="Kawaii_LoadingView" />
+    <item
+        android:id="@+id/loadingView58"
+        android:title="58LoadingView" />
+
+</menu>

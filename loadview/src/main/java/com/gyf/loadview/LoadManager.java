@@ -5,6 +5,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.view.Gravity;
+import android.view.ViewGroup;
 
 /**
  * The type Load manager.
@@ -16,7 +17,7 @@ public class LoadManager {
     /**
      * The constant mInstance.
      */
-    private static LoadManager mInstance = new LoadManager();
+    private static final LoadManager mInstance = new LoadManager();
 
     /**
      * The loading layout id.
@@ -201,6 +202,29 @@ public class LoadManager {
      * The empty image color enabled.
      */
     private boolean mEmptyImageColorEnabled = false;
+
+    /**
+     * The M image width.
+     */
+    private float mImageViewWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
+    /**
+     * The M image height.
+     */
+    private float mImageViewHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+    /**
+     * The M loading width.
+     */
+    private float mLoadingViewWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
+    /**
+     * The M loading height.
+     */
+    private float mLoadingViewHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+    /**
+     * The M is loading focusable.
+     */
+    private Boolean mIsLoadingFocusable = true;
 
     /**
      * Gets instance.
@@ -973,5 +997,88 @@ public class LoadManager {
      */
     public boolean isEmptyImageColorEnabled() {
         return mEmptyImageColorEnabled;
+    }
+
+
+    /**
+     * Sets image size.
+     *
+     * @param width the width
+     * @param heigh the heigh
+     * @return the image size
+     */
+    public LoadManager setImageViewSize(float width, float heigh) {
+        this.mImageViewWidth = width;
+        this.mImageViewHeight = heigh;
+        return this;
+    }
+
+    /**
+     * Gets image width.
+     *
+     * @return the image width
+     */
+    public float getImageViewWidth() {
+        return mImageViewWidth;
+    }
+
+    /**
+     * Gets image height.
+     *
+     * @return the image height
+     */
+    public float getImageViewHeight() {
+        return mImageViewHeight;
+    }
+
+    /**
+     * Set loading size load manager.
+     *
+     * @param width  the width
+     * @param height the height
+     * @return the load manager
+     */
+    public LoadManager setLoadingViewSize(float width, float height) {
+        this.mLoadingViewWidth = width;
+        this.mLoadingViewHeight = height;
+        return this;
+    }
+
+    /**
+     * Gets loading width.
+     *
+     * @return the loading width
+     */
+    public float getLoadingViewWidth() {
+        return mLoadingViewWidth;
+    }
+
+    /**
+     * Gets loading height.
+     *
+     * @return the loading height
+     */
+    public float getLoadingViewHeight() {
+        return mLoadingViewHeight;
+    }
+
+    /**
+     * Gets loading focusable.
+     *
+     * @return the loading focusable
+     */
+    public Boolean getLoadingFocusable() {
+        return mIsLoadingFocusable;
+    }
+
+    /**
+     * Is loading focusable load manager.
+     *
+     * @param focusable the focusable
+     * @return the load manager
+     */
+    public LoadManager isLoadingFocusable(Boolean focusable) {
+        this.mIsLoadingFocusable = focusable;
+        return this;
     }
 }

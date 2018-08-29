@@ -2,11 +2,12 @@
 android loadview是一个可以灵活自定义并且可以结合第三方动画解耦的库，使用起来也是超级方便
 ## 演示
  暂无
+ 
 ## 使用 
 > android studio
 
    ```groovy
-   implementation 'com.gyf.loadview:loadview:1.0.0'
+   implementation 'com.gyf.loadview:loadview:1.0.1'
    ```
 ## 用法
 ### 简单用法
@@ -23,7 +24,12 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
    <com.gyf.loadview.LoadView
        android:id="@+id/load_view"
        android:layout_width="match_parent"
-       android:layout_height="match_parent">
+       android:layout_height="match_parent"
+       app:load_image_height="100dp"
+       app:load_image_width="100dp"
+       app:load_loading_height="100dp"
+       app:load_loading_width="100dp"
+       app:load_current_status="undo">
    
        <!--自定义loading动画，可以自定义为任何控件，也支持第三方动画库-->
        <ProgressBar
@@ -92,6 +98,12 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
   
   | xml属性 | java方法 | 说明 |
   | :-------------: |:-------------:| :-------------:|
+  | load_current_status | setCurrentStatus() | 设置当前loadView的状态 |
+  | load_image_width | setImageViewSize() | 设置图片的大小 |
+  | load_image_height | setImageViewSize() | 设置图片的大小 |
+  | load_loading_width | setLoadingViewSize() | 设置Loading的大小 |
+  | load_loading_height | setLoadingViewSize() | 设置Loading的大小 |
+  | load_loading_clickable | isLoadingClickable() | 设置加载中，焦点是否在LoadView中 |
   | load_gravity | setGravity()  | 设置布局的位置 |
   | load_loading_gravity | setLoadingGravity() | 设置Loading布局的位置 |
   | load_image_text_gravity | setImageTextGravity() | 设置图片和文字布局的位置 |

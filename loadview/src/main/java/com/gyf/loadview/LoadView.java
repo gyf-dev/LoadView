@@ -16,7 +16,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,7 +40,7 @@ public class LoadView extends FrameLayout {
     /**
      * The current status.
      */
-    private LoadStatus mCurrentStatus = LoadStatus.UNDO;
+    private LoadStatus mCurrentStatus;
 
     /**
      * The loading gravity.
@@ -200,6 +199,9 @@ public class LoadView extends FrameLayout {
      * The empty image color enabled.
      */
     private boolean mEmptyImageColorEnabled;
+    private OnLoadFailClickListener mOnLoadFailClickListener;
+    private OnLoadErrorNetClickListener mOnLoadErrorNetClickListener;
+
     /**
      * The on loading listener.
      */
@@ -209,17 +211,27 @@ public class LoadView extends FrameLayout {
      */
     private boolean mIsLoading;
     /**
-     * The is default loading.
-     */
-    private boolean mIsDefaultLoading = true;
-    /**
      * The loading view width.
      */
-    private int mLoadingViewWidth;
+    private float mLoadingViewWidth;
     /**
      * The loading view height.
      */
-    private int mLoadingViewHeight;
+    private float mLoadingViewHeight;
+
+    /**
+     * The M image view width.
+     */
+    private float mImageViewWidth;
+    /**
+     * The M image view height.
+     */
+    private float mImageViewHeight;
+
+    /**
+     * The M is loading clickable.
+     */
+    private Boolean mIsLoadingClickable;
 
     /**
      * Instantiates a new Load view.
@@ -240,6 +252,9 @@ public class LoadView extends FrameLayout {
         super(context, attrs);
         mContext = context;
         TypedArray typedArray = mContext.obtainStyledAttributes(attrs, R.styleable.LoadView);
+
+        //初始化当前状态
+        initCurrentStatus(typedArray.getInt(R.styleable.LoadView_load_current_status, 0));
 
         //获得Loading的Gravity
         mLoadingGravity = typedArray.getInt(R.styleable.LoadView_load_loading_gravity,
@@ -335,15 +350,15 @@ public class LoadView extends FrameLayout {
         mEmptyText = emptyText != null ? emptyText : LoadManager.getInstance().getEmptyText();
 
         //获得加载失败显示的图片
-        mFailRes = typedArray.getResourceId(R.styleable.LoadView_load_res_fail,
+        mFailRes = typedArray.getResourceId(R.styleable.LoadView_load_image_fail,
                 LoadManager.getInstance().getFailRes());
 
         //获得加载网络错误显示的图片
-        mErrorNetRes = typedArray.getResourceId(R.styleable.LoadView_load_res_error_net,
+        mErrorNetRes = typedArray.getResourceId(R.styleable.LoadView_load_image_error_net,
                 LoadManager.getInstance().getErrorNetRes());
 
         //获得加载数据为空显示的图片
-        mEmptyRes = typedArray.getResourceId(R.styleable.LoadView_load_res_empty,
+        mEmptyRes = typedArray.getResourceId(R.styleable.LoadView_load_image_empty,
                 LoadManager.getInstance().getEmptyRes());
 
         //获得加载失败显示的文字颜色
@@ -400,9 +415,22 @@ public class LoadView extends FrameLayout {
                 typedArray.getBoolean(R.styleable.LoadView_load_image_color_enabled,
                         LoadManager.getInstance().isEmptyImageColorEnabled()));
 
+        //图片的宽度
+        mImageViewWidth = typedArray.getDimension(R.styleable.LoadView_load_image_width, LoadManager.getInstance().getImageViewWidth());
+        //图片的高度
+        mImageViewHeight = typedArray.getDimension(R.styleable.LoadView_load_image_height, LoadManager.getInstance().getImageViewHeight());
+
+        //图片的宽度
+        mLoadingViewWidth = typedArray.getDimension(R.styleable.LoadView_load_loading_width, LoadManager.getInstance().getLoadingViewWidth());
+        //图片的高度
+        mLoadingViewHeight = typedArray.getDimension(R.styleable.LoadView_load_loading_height, LoadManager.getInstance().getLoadingViewHeight());
+
+        mIsLoadingClickable = typedArray.getBoolean(R.styleable.LoadView_load_loading_clickable, LoadManager.getInstance().getLoadingFocusable());
+
         initView();
         typedArray.recycle();
     }
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -412,7 +440,6 @@ public class LoadView extends FrameLayout {
             throw new IllegalStateException("LoadView can host only one ‘Loading’ child view");
         }
         if (childCount == 3) {
-            mIsDefaultLoading = false;
             View loadingChild = getChildAt(2);
             removeView(loadingChild);
             removeView(getChildAt(1));
@@ -425,12 +452,12 @@ public class LoadView extends FrameLayout {
 
         for (int i = 0; i < getChildCount(); i++) {
             LayoutParams params = (LayoutParams) getChildAt(i).getLayoutParams();
-            if (i == 0 || mIsDefaultLoading) {
+            if (i == 0) {
                 params.width = LayoutParams.WRAP_CONTENT;
                 params.height = LayoutParams.WRAP_CONTENT;
-            } else {
-                params.width = mLoadingViewWidth;
-                params.height = mLoadingViewHeight;
+            } else if (i == 1) {
+                params.width = (int) mLoadingViewWidth;
+                params.height = (int) mLoadingViewHeight;
             }
         }
 
@@ -471,6 +498,9 @@ public class LoadView extends FrameLayout {
 
         mLinearLayout.addView(mImageView);
         mLinearLayout.addView(mTextView);
+        mLinearLayout.setOnClickListener(new MyOnClickListener());
+
+        setImageViewSize();
 
         addView(mLinearLayout);
 
@@ -502,7 +532,7 @@ public class LoadView extends FrameLayout {
                 }
                 break;
             case LOADING:
-                setClickable(true);
+                setClickable(mIsLoadingClickable);
                 mLinearLayout.setVisibility(GONE);
                 mLoadView.setVisibility(VISIBLE);
                 mLinearLayout.setClickable(false);
@@ -537,7 +567,7 @@ public class LoadView extends FrameLayout {
                 mTextView.setTextColor(mErrorNetTextColor);
                 mLinearLayout.setVisibility(VISIBLE);
                 mLoadView.setVisibility(GONE);
-                mLinearLayout.setClickable(false);
+                mLinearLayout.setClickable(true);
                 if (mOnLoadingListener != null && mIsLoading) {
                     mIsLoading = false;
                     mOnLoadingListener.onLoadingEnd(mLoadView);
@@ -604,7 +634,20 @@ public class LoadView extends FrameLayout {
      * @param layoutId the layout id
      */
     public void setLoadingView(@LayoutRes int layoutId) {
-        setLoadingView(LayoutInflater.from(mContext).inflate(layoutId, this, false));
+        setLoadingView(LayoutInflater.from(mContext).inflate(layoutId, this, false),
+                (int) mLoadingViewWidth,
+                (int) mLoadingViewHeight);
+    }
+
+    /**
+     * 设置加载中的view
+     *
+     * @param layoutId the layout id
+     * @param width    the width
+     * @param height   the height
+     */
+    public void setLoadingView(@LayoutRes int layoutId, int width, int height) {
+        setLoadingView(LayoutInflater.from(mContext).inflate(layoutId, this, false), width, height);
     }
 
     /**
@@ -613,7 +656,7 @@ public class LoadView extends FrameLayout {
      * @param view the view
      */
     public void setLoadingView(View view) {
-        setLoadingView(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        setLoadingView(view, (int) mLoadingViewWidth, (int) mLoadingViewHeight);
     }
 
     /**
@@ -624,12 +667,24 @@ public class LoadView extends FrameLayout {
      * @param height the height 单位px
      */
     public void setLoadingView(View view, int width, int height) {
-        mIsDefaultLoading = false;
         mLoadingViewWidth = width;
         mLoadingViewHeight = height;
         removeView(mLoadView);
         this.mLoadView = view;
         addView(mLoadView);
+        setCurrentStatus(mCurrentStatus);
+    }
+
+    /**
+     * Sets loading view size.
+     *
+     * @param width  the width
+     * @param height the height
+     */
+    public void setLoadingViewSize(int width, int height) {
+        mLoadingViewWidth = width;
+        mLoadingViewHeight = height;
+        requestLayout();
     }
 
     /**
@@ -953,6 +1008,18 @@ public class LoadView extends FrameLayout {
     }
 
     /**
+     * 设置图片的大小
+     *
+     * @param imageWidth  the image width
+     * @param imageHeight the image height
+     */
+    public void setImageViewSize(float imageWidth, float imageHeight) {
+        this.mImageViewWidth = imageWidth;
+        this.mImageViewHeight = imageHeight;
+        setImageViewSize();
+    }
+
+    /**
      * 设置布局的位置
      *
      * @param gravity the gravity
@@ -992,6 +1059,15 @@ public class LoadView extends FrameLayout {
         mImageTextGravity = gravity;
     }
 
+    /**
+     * 设置加载中，焦点是否在LoadView中
+     *
+     * @param clickable the clickable
+     */
+    public void isLoadingClickable(Boolean clickable) {
+        this.mIsLoadingClickable = clickable;
+    }
+
     private int getCommonGravity(int gravity) {
         if ((gravity & Gravity.RELATIVE_HORIZONTAL_GRAVITY_MASK) == 0) {
             gravity |= Gravity.START;
@@ -1009,15 +1085,7 @@ public class LoadView extends FrameLayout {
      * @param listener the listener
      */
     public void setOnFailClickListener(final OnLoadFailClickListener listener) {
-        mLinearLayout.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setCurrentStatus(LoadStatus.LOADING);
-                if (listener != null) {
-                    listener.onLoadFailClick();
-                }
-            }
-        });
+        mOnLoadFailClickListener = listener;
     }
 
     /**
@@ -1028,6 +1096,25 @@ public class LoadView extends FrameLayout {
          * 失败点击事件
          */
         void onLoadFailClick();
+    }
+
+    /**
+     * 设置网络错误回调监听
+     *
+     * @param listener the listener
+     */
+    public void setOnErrorNetClickListener(final OnLoadErrorNetClickListener listener) {
+        mOnLoadErrorNetClickListener = listener;
+    }
+
+    /**
+     * 网络错误时的监听
+     */
+    public interface OnLoadErrorNetClickListener {
+        /**
+         * 失败点击事件
+         */
+        void onLoadErrorNetClick();
     }
 
     /**
@@ -1056,5 +1143,66 @@ public class LoadView extends FrameLayout {
          * @param loadingView the loading view
          */
         void onLoadingEnd(View loadingView);
+    }
+
+    /**
+     * The type My on click listener.
+     */
+    class MyOnClickListener implements OnClickListener {
+        @Override
+        public void onClick(View v) {
+            if (mCurrentStatus == LoadStatus.FAIL) {
+                if (mOnLoadFailClickListener != null) {
+                    mOnLoadFailClickListener.onLoadFailClick();
+                    setCurrentStatus(LoadStatus.LOADING);
+                }
+            } else if (mCurrentStatus == LoadStatus.ERROR_NET) {
+                if (mOnLoadErrorNetClickListener != null) {
+                    mOnLoadErrorNetClickListener.onLoadErrorNetClick();
+                    setCurrentStatus(LoadStatus.LOADING);
+                }
+            }
+        }
+    }
+
+    /**
+     * 初始化当前状态
+     *
+     * @param currentStatusTemp the current status temp
+     */
+    private void initCurrentStatus(int currentStatusTemp) {
+        switch (currentStatusTemp) {
+            case 0:
+                mCurrentStatus = LoadStatus.UNDO;
+                break;
+            case 1:
+                mCurrentStatus = LoadStatus.LOADING;
+                break;
+            case 2:
+                mCurrentStatus = LoadStatus.FAIL;
+                break;
+            case 3:
+                mCurrentStatus = LoadStatus.ERROR_NET;
+                break;
+            case 4:
+                mCurrentStatus = LoadStatus.EMPTY;
+                break;
+            case 5:
+                mCurrentStatus = LoadStatus.SUCCESS;
+                break;
+        }
+    }
+
+
+    /**
+     * 设置图片大小
+     */
+    private void setImageViewSize() {
+        if (mImageView != null) {
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mImageView.getLayoutParams();
+            layoutParams.width = (int) mImageViewWidth;
+            layoutParams.height = (int) mImageViewHeight;
+            mImageView.setLayoutParams(layoutParams);
+        }
     }
 }
