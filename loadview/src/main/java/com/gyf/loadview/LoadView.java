@@ -1285,7 +1285,7 @@ public class LoadView extends FrameLayout {
             LinearLayout.LayoutParams textParams = (LinearLayout.LayoutParams) mTextView.getLayoutParams();
             textParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
             textParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            imageParams.gravity = Gravity.CENTER_HORIZONTAL;
+            textParams.gravity = Gravity.CENTER_HORIZONTAL;
             mTextView.setLayoutParams(textParams);
         }
     }
