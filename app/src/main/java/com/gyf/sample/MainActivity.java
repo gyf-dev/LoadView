@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.gastudio.gabottleloading.library.GABottleLoadingView;
@@ -67,100 +68,104 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.lVFunnyBar:
-                mLVBase = new LVFunnyBar(this);
-                mLoadView.setLoadingView(mLVBase, 200, 200);
-                break;
-            case R.id.lVGhost:
-                mLVBase = new LVGhost(this);
-                mLoadView.setLoadingView(mLVBase, 200, 200);
-                break;
-            case R.id.lVBattery:
-                mLVBase = new LVBattery(this);
-                mLoadView.setLoadingView(mLVBase, 200, 200);
-                break;
-            case R.id.lVBlock:
-                mLVBase = new LVBlock(this);
-                mLoadView.setLoadingView(mLVBase, 200, 200);
-                break;
-            case R.id.lVEatBeans:
-                mLVBase = new LVEatBeans(this);
-                mLoadView.setLoadingView(mLVBase, 200, 200);
-                break;
-            case R.id.lVCircularSmile:
-                mLVBase = new LVCircularSmile(this);
-                ((LVCircularSmile) mLVBase).setViewColor(Color.parseColor("#8CE793"));
-                mLoadView.setLoadingView(mLVBase, 200, 200);
-                break;
-            case R.id.lVFinePoiStar:
-                mLVBase = new LVFinePoiStar(this);
-                ((LVFinePoiStar) mLVBase).setViewColor(Color.parseColor("#8CE793"));
-                ((LVFinePoiStar) mLVBase).setCircleColor(Color.parseColor("#C3CC63"));
-                mLoadView.setLoadingView(mLVBase, 200, 200);
-                break;
-            case R.id.lVBlazeWood:
-                mLVBase = new LVBlazeWood(this);
-                mLoadView.setLoadingView(mLVBase, 200, 200);
-                break;
-            case R.id.catLoadingView:
-                mCatLoadingView = new CatLoadingView();
-                break;
-            case R.id.viscousCircleView:
-                View view = LayoutInflater.from(this).inflate(R.layout.loading_viscous_circle, mLoadView, false);
-                mLoadingView = (LoadingView) view;
-                mLoadView.setLoadingView(mLoadingView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                break;
-            case R.id.gABottleLoadingView:
-                mGaBottleLoadingView = new GABottleLoadingView(this);
-                mLoadView.setLoadingView(mGaBottleLoadingView, 200, 200);
-                break;
-            case R.id.slackLoadingView:
-                mSlackLoadingView = new SlackLoadingView(this);
-                mLoadView.setLoadingView(mSlackLoadingView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                break;
-            case R.id.squareLoading:
-                mLoadView.setLoadingView(R.layout.loading_square, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                break;
-            case R.id.kawaii_LoadingView:
-                mKawaiiLoadingView = new Kawaii_LoadingView(this);
-                mLoadView.setLoadingView(mKawaiiLoadingView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                break;
-            case R.id.loadingView58:
-                mLoadView.setLoadingView(R.layout.loading_58);
-                break;
-            case R.id.lottie_android:
-                if (mLottieView == null) {
-                    mLottieView = (LottieAnimationView) LayoutInflater.from(this).inflate(R.layout.loading_lottie, mLoadView, false);
-                }
-                mLottieView.setAnimation("AndroidWave.json");
-                mLoadView.setLoadingView(mLottieView, 400, 400);
-                break;
-            case R.id.lottie_a:
-                if (mLottieView == null) {
-                    mLottieView = (LottieAnimationView) LayoutInflater.from(this).inflate(R.layout.loading_lottie, mLoadView, false);
-                }
-                mLottieView.setAnimation("A.json");
-                mLoadView.setLoadingView(mLottieView, 400, 400);
-                break;
-            case R.id.lottie_b:
-                if (mLottieView == null) {
-                    mLottieView = (LottieAnimationView) LayoutInflater.from(this).inflate(R.layout.loading_lottie, mLoadView, false);
-                }
-                mLottieView.setAnimation("B.json");
-                mLoadView.setLoadingView(mLottieView, 400, 400);
-                break;
-            default:
-                break;
-        }
-        mCurrentLoadingId = item.getItemId();
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                mLoadView.setCurrentStatus(LoadStatus.LOADING);
+        if (!mLoadView.isLoading()) {
+            switch (item.getItemId()) {
+                case R.id.lVFunnyBar:
+                    mLVBase = new LVFunnyBar(this);
+                    mLoadView.setLoadingView(mLVBase, 200, 200);
+                    break;
+                case R.id.lVGhost:
+                    mLVBase = new LVGhost(this);
+                    mLoadView.setLoadingView(mLVBase, 200, 200);
+                    break;
+                case R.id.lVBattery:
+                    mLVBase = new LVBattery(this);
+                    mLoadView.setLoadingView(mLVBase, 200, 200);
+                    break;
+                case R.id.lVBlock:
+                    mLVBase = new LVBlock(this);
+                    mLoadView.setLoadingView(mLVBase, 200, 200);
+                    break;
+                case R.id.lVEatBeans:
+                    mLVBase = new LVEatBeans(this);
+                    mLoadView.setLoadingView(mLVBase, 200, 200);
+                    break;
+                case R.id.lVCircularSmile:
+                    mLVBase = new LVCircularSmile(this);
+                    ((LVCircularSmile) mLVBase).setViewColor(Color.parseColor("#8CE793"));
+                    mLoadView.setLoadingView(mLVBase, 200, 200);
+                    break;
+                case R.id.lVFinePoiStar:
+                    mLVBase = new LVFinePoiStar(this);
+                    ((LVFinePoiStar) mLVBase).setViewColor(Color.parseColor("#8CE793"));
+                    ((LVFinePoiStar) mLVBase).setCircleColor(Color.parseColor("#C3CC63"));
+                    mLoadView.setLoadingView(mLVBase, 200, 200);
+                    break;
+                case R.id.lVBlazeWood:
+                    mLVBase = new LVBlazeWood(this);
+                    mLoadView.setLoadingView(mLVBase, 200, 200);
+                    break;
+                case R.id.catLoadingView:
+                    mCatLoadingView = new CatLoadingView();
+                    break;
+                case R.id.viscousCircleView:
+                    View view = LayoutInflater.from(this).inflate(R.layout.loading_viscous_circle, mLoadView, false);
+                    mLoadingView = (LoadingView) view;
+                    mLoadView.setLoadingView(mLoadingView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    break;
+                case R.id.gABottleLoadingView:
+                    mGaBottleLoadingView = new GABottleLoadingView(this);
+                    mLoadView.setLoadingView(mGaBottleLoadingView, 200, 200);
+                    break;
+                case R.id.slackLoadingView:
+                    mSlackLoadingView = new SlackLoadingView(this);
+                    mLoadView.setLoadingView(mSlackLoadingView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    break;
+                case R.id.squareLoading:
+                    mLoadView.setLoadingView(R.layout.loading_square, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    break;
+                case R.id.kawaii_LoadingView:
+                    mKawaiiLoadingView = new Kawaii_LoadingView(this);
+                    mLoadView.setLoadingView(mKawaiiLoadingView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    break;
+                case R.id.loadingView58:
+                    mLoadView.setLoadingView(R.layout.loading_58);
+                    break;
+                case R.id.lottie_android:
+                    if (mLottieView == null) {
+                        mLottieView = (LottieAnimationView) LayoutInflater.from(this).inflate(R.layout.loading_lottie, mLoadView, false);
+                    }
+                    mLottieView.setAnimation("AndroidWave.json");
+                    mLoadView.setLoadingView(mLottieView, 400, 400);
+                    break;
+                case R.id.lottie_a:
+                    if (mLottieView == null) {
+                        mLottieView = (LottieAnimationView) LayoutInflater.from(this).inflate(R.layout.loading_lottie, mLoadView, false);
+                    }
+                    mLottieView.setAnimation("A.json");
+                    mLoadView.setLoadingView(mLottieView, 400, 400);
+                    break;
+                case R.id.lottie_b:
+                    if (mLottieView == null) {
+                        mLottieView = (LottieAnimationView) LayoutInflater.from(this).inflate(R.layout.loading_lottie, mLoadView, false);
+                    }
+                    mLottieView.setAnimation("B.json");
+                    mLoadView.setLoadingView(mLottieView, 400, 400);
+                    break;
+                default:
+                    break;
             }
-        });
-        setStatus();
+            mCurrentLoadingId = item.getItemId();
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    mLoadView.setCurrentStatus(LoadStatus.LOADING);
+                }
+            });
+            setStatus();
+        } else {
+            Toast.makeText(this, "加载结束在切换动画", Toast.LENGTH_SHORT).show();
+        }
         return super.onOptionsItemSelected(item);
     }
 

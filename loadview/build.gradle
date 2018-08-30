@@ -38,7 +38,7 @@ publish {
     userOrg = 'geyifeng'
     groupId = 'com.gyf.loadview'
     artifactId = 'loadview'
-    publishVersion = '1.0.1'
+    publishVersion = '1.0.2'
     desc = 'Android Load View'
     website = 'https://github.com/gyf-dev/LoadView'
 }

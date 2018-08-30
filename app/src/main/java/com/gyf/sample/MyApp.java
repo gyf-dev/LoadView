@@ -1,6 +1,10 @@
 package com.gyf.sample;
 
 import android.app.Application;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 
 import com.gyf.loadview.LoadManager;
 import com.squareup.leakcanary.LeakCanary;
@@ -19,6 +23,9 @@ public class MyApp extends Application {
             }
             LeakCanary.install(this);
         }
-        LoadManager.getInstance().setFailText("加载失败了哦，哈哈哈哈");
+        SpannableString spannableString = new SpannableString("加载失败了哦，点我重试");
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#3F51B5"));
+        spannableString.setSpan(colorSpan, 7, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        LoadManager.getInstance().setFailText(spannableString);
     }
 }

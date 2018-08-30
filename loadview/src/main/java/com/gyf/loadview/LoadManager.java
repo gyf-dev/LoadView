@@ -28,15 +28,15 @@ public class LoadManager {
     /**
      * The fail text.
      */
-    private String mFailText = "加载失败,点击重试";
+    private CharSequence mFailText = "加载失败,点击重试";
     /**
      * The error net text.
      */
-    private String mErrorNetText = "网络错误";
+    private CharSequence mErrorNetText = "网络错误";
     /**
      * The empty text.
      */
-    private String mEmptyText = "数据为空";
+    private CharSequence mEmptyText = "数据为空";
 
 
     /**
@@ -204,27 +204,42 @@ public class LoadManager {
     private boolean mEmptyImageColorEnabled = false;
 
     /**
-     * The M image width.
+     * The image width.
      */
     private float mImageViewWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
     /**
-     * The M image height.
+     * The image height.
      */
     private float mImageViewHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
 
     /**
-     * The M loading width.
+     * The loading width.
      */
     private float mLoadingViewWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
     /**
-     * The M loading height.
+     * The loading height.
      */
     private float mLoadingViewHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
 
     /**
-     * The M is loading focusable.
+     * The is loading focusable.
      */
-    private Boolean mIsLoadingFocusable = true;
+    private Boolean mIsLoadingClickable = true;
+
+    /**
+     * The is fail clickable.
+     */
+    private Boolean mIsFailClickable = true;
+
+    /**
+     * The is error net clickable.
+     */
+    private Boolean mIsErrorNetClickable = true;
+
+    /**
+     * The is empty clickable.
+     */
+    private Boolean mIsEmptyClickable = true;
 
     /**
      * Gets instance.
@@ -262,7 +277,7 @@ public class LoadManager {
      * @param failRes  the fail res
      * @return the fail
      */
-    public LoadManager setFail(String failText, @DrawableRes int failRes) {
+    public LoadManager setFail(CharSequence failText, @DrawableRes int failRes) {
         mFailText = failText;
         mFailRes = failRes;
         return this;
@@ -275,7 +290,7 @@ public class LoadManager {
      * @param errorNetRes  the error net res
      * @return the error net
      */
-    public LoadManager setErrorNet(String errorNetText, @DrawableRes int errorNetRes) {
+    public LoadManager setErrorNet(CharSequence errorNetText, @DrawableRes int errorNetRes) {
         mErrorNetText = errorNetText;
         mErrorNetRes = errorNetRes;
         return this;
@@ -288,7 +303,7 @@ public class LoadManager {
      * @param emptyRes  the empty res
      * @return the empty
      */
-    public LoadManager setEmpty(String emptyText, @DrawableRes int emptyRes) {
+    public LoadManager setEmpty(CharSequence emptyText, @DrawableRes int emptyRes) {
         mEmptyText = emptyText;
         mEmptyRes = emptyRes;
         return this;
@@ -360,7 +375,7 @@ public class LoadManager {
      * @param failText the fail text
      * @return the fail text
      */
-    public LoadManager setFailText(String failText) {
+    public LoadManager setFailText(CharSequence failText) {
         this.mFailText = failText;
         return this;
     }
@@ -370,7 +385,7 @@ public class LoadManager {
      *
      * @return the fail text
      */
-    public String getFailText() {
+    public CharSequence getFailText() {
         return mFailText;
     }
 
@@ -380,7 +395,7 @@ public class LoadManager {
      * @param errorNetText the error net text
      * @return the error net text
      */
-    public LoadManager setErrorNetText(String errorNetText) {
+    public LoadManager setErrorNetText(CharSequence errorNetText) {
         this.mErrorNetText = errorNetText;
         return this;
     }
@@ -390,7 +405,7 @@ public class LoadManager {
      *
      * @return the error net text
      */
-    public String getErrorNetText() {
+    public CharSequence getErrorNetText() {
         return mErrorNetText;
     }
 
@@ -400,7 +415,7 @@ public class LoadManager {
      * @param emptyText the empty text
      * @return the empty text
      */
-    public LoadManager setEmptyText(String emptyText) {
+    public LoadManager setEmptyText(CharSequence emptyText) {
         this.mEmptyText = emptyText;
         return this;
     }
@@ -410,7 +425,7 @@ public class LoadManager {
      *
      * @return the empty text
      */
-    public String getEmptyText() {
+    public CharSequence getEmptyText() {
         return mEmptyText;
     }
 
@@ -1065,20 +1080,94 @@ public class LoadManager {
     /**
      * Gets loading focusable.
      *
-     * @return the loading focusable
+     * @return the loading clickable
      */
-    public Boolean getLoadingFocusable() {
-        return mIsLoadingFocusable;
+    public Boolean getLoadingClickable() {
+        return mIsLoadingClickable;
     }
 
     /**
      * Is loading focusable load manager.
      *
-     * @param focusable the focusable
+     * @param loadingClickable the loadingClickable
      * @return the load manager
      */
-    public LoadManager isLoadingFocusable(Boolean focusable) {
-        this.mIsLoadingFocusable = focusable;
+    public LoadManager isLoadingClickable(Boolean loadingClickable) {
+        this.mIsLoadingClickable = loadingClickable;
+        return this;
+    }
+
+    /**
+     * Is load clickable load manager.
+     *
+     * @param clickable the clickable
+     * @return the load manager
+     */
+    public LoadManager isLoadClickable(Boolean clickable) {
+        this.mIsLoadingClickable = clickable;
+        this.mIsFailClickable = clickable;
+        this.mIsErrorNetClickable = clickable;
+        this.mIsEmptyClickable = clickable;
+        return this;
+    }
+
+    /**
+     * Is fail clickable boolean.
+     *
+     * @return the boolean
+     */
+    public Boolean getFailClickable() {
+        return mIsFailClickable;
+    }
+
+    /**
+     * Is fail clickable load manager.
+     *
+     * @param failClickable the fail clickable
+     * @return the load manager
+     */
+    public LoadManager isFailClickable(Boolean failClickable) {
+        this.mIsFailClickable = failClickable;
+        return this;
+    }
+
+    /**
+     * Is error net clickable boolean.
+     *
+     * @return the boolean
+     */
+    public Boolean getErrorNetClickable() {
+        return mIsErrorNetClickable;
+    }
+
+    /**
+     * Is error net clickable load manager.
+     *
+     * @param errorNetClickable the error net clickable
+     * @return the load manager
+     */
+    public LoadManager isErrorNetClickable(Boolean errorNetClickable) {
+        this.mIsErrorNetClickable = errorNetClickable;
+        return this;
+    }
+
+    /**
+     * Is empty clickable boolean.
+     *
+     * @return the boolean
+     */
+    public Boolean getEmptyClickable() {
+        return mIsEmptyClickable;
+    }
+
+    /**
+     * Is empty clickable load manager.
+     *
+     * @param emptyClickable the empty clickable
+     * @return the load manager
+     */
+    public LoadManager isEmptyClickable(Boolean emptyClickable) {
+        this.mIsEmptyClickable = emptyClickable;
         return this;
     }
 }

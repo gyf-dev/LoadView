@@ -11,7 +11,7 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
 > android studio
 
    ```groovy
-   implementation 'com.gyf.loadview:loadview:1.0.1'
+   implementation 'com.gyf.loadview:loadview:1.0.2'
    ```
 ## 用法
 ### 简单用法
@@ -116,7 +116,11 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
   | load_image_height | setImageViewSize() | 设置图片的大小 |
   | load_loading_width | setLoadingViewSize() | 设置Loading的大小 |
   | load_loading_height | setLoadingViewSize() | 设置Loading的大小 |
+  | load_clickable | isLoadClickable() | 焦点是否在LoadView中 |
   | load_loading_clickable | isLoadingClickable() | 设置加载中，焦点是否在LoadView中 |
+  | load_fail_clickable | isFailClickable() | 设置加载失败，焦点是否在LoadView中 |
+  | load_error_net_clickable | isErrorNetClickable() | 设置加载网络错误，焦点是否在LoadView中 |
+  | load_empty_clickable | isEmptyClickable() | 设置加载数据为空，焦点是否在LoadView中 |
   | load_gravity | setGravity()  | 设置布局的位置 |
   | load_loading_gravity | setLoadingGravity() | 设置Loading布局的位置 |
   | load_image_text_gravity | setImageTextGravity() | 设置图片和文字布局的位置 |

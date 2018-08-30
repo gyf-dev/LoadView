@@ -16,6 +16,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -122,15 +123,15 @@ public class LoadView extends FrameLayout {
     /**
      * The fail text.
      */
-    private String mFailText;
+    private CharSequence mFailText;
     /**
      * The error net text.
      */
-    private String mErrorNetText;
+    private CharSequence mErrorNetText;
     /**
      * The empty text.
      */
-    private String mEmptyText;
+    private CharSequence mEmptyText;
 
     /**
      * The fail res.
@@ -232,6 +233,12 @@ public class LoadView extends FrameLayout {
      * The M is loading clickable.
      */
     private Boolean mIsLoadingClickable;
+
+    private Boolean mIsFailClickable;
+
+    private Boolean mIsErrorNetClickable;
+
+    private Boolean mIsEmptyClickable;
 
     /**
      * Instantiates a new Load view.
@@ -420,12 +427,27 @@ public class LoadView extends FrameLayout {
         //图片的高度
         mImageViewHeight = typedArray.getDimension(R.styleable.LoadView_load_image_height, LoadManager.getInstance().getImageViewHeight());
 
-        //图片的宽度
+        //loading的宽度
         mLoadingViewWidth = typedArray.getDimension(R.styleable.LoadView_load_loading_width, LoadManager.getInstance().getLoadingViewWidth());
-        //图片的高度
+        //loading的高度
         mLoadingViewHeight = typedArray.getDimension(R.styleable.LoadView_load_loading_height, LoadManager.getInstance().getLoadingViewHeight());
 
-        mIsLoadingClickable = typedArray.getBoolean(R.styleable.LoadView_load_loading_clickable, LoadManager.getInstance().getLoadingFocusable());
+        //加载中，焦点是否在LoadView中
+        mIsLoadingClickable = typedArray.getBoolean(R.styleable.LoadView_load_loading_clickable,
+                typedArray.getBoolean(R.styleable.LoadView_load_clickable,
+                        LoadManager.getInstance().getLoadingClickable()));
+        //加载失败，焦点是否在LoadView中
+        mIsFailClickable = typedArray.getBoolean(R.styleable.LoadView_load_fail_clickable,
+                typedArray.getBoolean(R.styleable.LoadView_load_clickable,
+                        LoadManager.getInstance().getFailClickable()));
+        //加载网络错误，焦点是否在LoadView中
+        mIsErrorNetClickable = typedArray.getBoolean(R.styleable.LoadView_load_error_net_clickable,
+                typedArray.getBoolean(R.styleable.LoadView_load_clickable,
+                        LoadManager.getInstance().getErrorNetClickable()));
+        //加载数据为空，焦点是否在LoadView中
+        mIsEmptyClickable = typedArray.getBoolean(R.styleable.LoadView_load_empty_clickable,
+                typedArray.getBoolean(R.styleable.LoadView_load_clickable,
+                        LoadManager.getInstance().getEmptyClickable()));
 
         initView();
         typedArray.recycle();
@@ -500,7 +522,7 @@ public class LoadView extends FrameLayout {
         mLinearLayout.addView(mTextView);
         mLinearLayout.setOnClickListener(new MyOnClickListener());
 
-        setImageViewSize();
+        setImageTextSize();
 
         addView(mLinearLayout);
 
@@ -536,13 +558,13 @@ public class LoadView extends FrameLayout {
                 mLinearLayout.setVisibility(GONE);
                 mLoadView.setVisibility(VISIBLE);
                 mLinearLayout.setClickable(false);
-                if (mOnLoadingListener != null) {
+                if (mOnLoadingListener != null && !mIsLoading) {
                     mIsLoading = true;
                     mOnLoadingListener.onLoadingStart(mLoadView);
                 }
                 break;
             case FAIL:
-                setClickable(true);
+                setClickable(mIsFailClickable);
                 mImageView.setImageResource(mFailRes);
                 if (mFailImageColorEnabled) {
                     setImageDrawable(mFailImageColor);
@@ -558,7 +580,7 @@ public class LoadView extends FrameLayout {
                 }
                 break;
             case ERROR_NET:
-                setClickable(true);
+                setClickable(mIsErrorNetClickable);
                 mImageView.setImageResource(mErrorNetRes);
                 if (mErrorNetImageColorEnabled) {
                     setImageDrawable(mErrorNetImageColor);
@@ -574,7 +596,7 @@ public class LoadView extends FrameLayout {
                 }
                 break;
             case EMPTY:
-                setClickable(true);
+                setClickable(mIsEmptyClickable);
                 mImageView.setImageResource(mEmptyRes);
                 if (mEmptyImageColorEnabled) {
                     setImageDrawable(mEmptyImageColor);
@@ -667,12 +689,14 @@ public class LoadView extends FrameLayout {
      * @param height the height 单位px
      */
     public void setLoadingView(View view, int width, int height) {
-        mLoadingViewWidth = width;
-        mLoadingViewHeight = height;
-        removeView(mLoadView);
-        this.mLoadView = view;
-        addView(mLoadView);
-        setCurrentStatus(mCurrentStatus);
+        if (!mIsLoading) {
+            mLoadingViewWidth = width;
+            mLoadingViewHeight = height;
+            removeView(mLoadView);
+            this.mLoadView = view;
+            addView(mLoadView);
+            changeView();
+        }
     }
 
     /**
@@ -723,7 +747,7 @@ public class LoadView extends FrameLayout {
      *
      * @param failText the fail text
      */
-    public void setFailText(String failText) {
+    public void setFailText(CharSequence failText) {
         this.mFailText = failText;
         changeView();
     }
@@ -733,7 +757,7 @@ public class LoadView extends FrameLayout {
      *
      * @param errorNetText the error net text
      */
-    public void setErrorNetText(String errorNetText) {
+    public void setErrorNetText(CharSequence errorNetText) {
         this.mErrorNetText = errorNetText;
         changeView();
     }
@@ -743,7 +767,7 @@ public class LoadView extends FrameLayout {
      *
      * @param emptyText the empty text
      */
-    public void setEmptyText(String emptyText) {
+    public void setEmptyText(CharSequence emptyText) {
         this.mEmptyText = emptyText;
         changeView();
     }
@@ -1016,7 +1040,7 @@ public class LoadView extends FrameLayout {
     public void setImageViewSize(float imageWidth, float imageHeight) {
         this.mImageViewWidth = imageWidth;
         this.mImageViewHeight = imageHeight;
-        setImageViewSize();
+        setImageTextSize();
     }
 
     /**
@@ -1060,12 +1084,56 @@ public class LoadView extends FrameLayout {
     }
 
     /**
-     * 设置加载中，焦点是否在LoadView中
+     * 焦点是否在LoadView中
      *
      * @param clickable the clickable
      */
-    public void isLoadingClickable(Boolean clickable) {
+    public void isLoadClickable(Boolean clickable) {
         this.mIsLoadingClickable = clickable;
+        this.mIsFailClickable = clickable;
+        this.mIsErrorNetClickable = clickable;
+        this.mIsEmptyClickable = clickable;
+        changeView();
+    }
+
+    /**
+     * 设置加载中，焦点是否在LoadView中
+     *
+     * @param loadingClickable the loadingClickable
+     */
+    public void isLoadingClickable(Boolean loadingClickable) {
+        this.mIsLoadingClickable = loadingClickable;
+        changeView();
+    }
+
+    /**
+     * 设置加载失败，焦点是否在LoadView中
+     *
+     * @param failClickable the fail clickable
+     */
+    public void isFailClickable(Boolean failClickable) {
+        this.mIsFailClickable = failClickable;
+        changeView();
+    }
+
+    /**
+     * 设置加载网络错误，焦点是否在LoadView中
+     *
+     * @param errorNetClickable the error net clickable
+     */
+    public void isErrorNetClickable(Boolean errorNetClickable) {
+        this.mIsErrorNetClickable = errorNetClickable;
+        changeView();
+    }
+
+    /**
+     * 设置加载数据为空，焦点是否在LoadView中
+     *
+     * @param emptyClickable the empty clickable
+     */
+    public void isEmptyClickable(Boolean emptyClickable) {
+        this.mIsEmptyClickable = emptyClickable;
+        changeView();
     }
 
     private int getCommonGravity(int gravity) {
@@ -1146,6 +1214,15 @@ public class LoadView extends FrameLayout {
     }
 
     /**
+     * 获得当前是否在加载中
+     *
+     * @return the boolean
+     */
+    public boolean isLoading() {
+        return mIsLoading;
+    }
+
+    /**
      * The type My on click listener.
      */
     class MyOnClickListener implements OnClickListener {
@@ -1197,12 +1274,19 @@ public class LoadView extends FrameLayout {
     /**
      * 设置图片大小
      */
-    private void setImageViewSize() {
+    private void setImageTextSize() {
         if (mImageView != null) {
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mImageView.getLayoutParams();
-            layoutParams.width = (int) mImageViewWidth;
-            layoutParams.height = (int) mImageViewHeight;
-            mImageView.setLayoutParams(layoutParams);
+            LinearLayout.LayoutParams imageParams = (LinearLayout.LayoutParams) mImageView.getLayoutParams();
+            imageParams.width = (int) mImageViewWidth;
+            imageParams.height = (int) mImageViewHeight;
+            imageParams.gravity = Gravity.CENTER_HORIZONTAL;
+            mImageView.setLayoutParams(imageParams);
+
+            LinearLayout.LayoutParams textParams = (LinearLayout.LayoutParams) mTextView.getLayoutParams();
+            textParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            textParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            imageParams.gravity = Gravity.CENTER_HORIZONTAL;
+            mTextView.setLayoutParams(textParams);
         }
     }
 }

@@ -129,7 +129,11 @@
             <enum name="wrap_content" value="-2" />
         </attr>
 
+        <attr name="load_clickable" format="boolean" />
         <attr name="load_loading_clickable" format="boolean" />
+        <attr name="load_fail_clickable" format="boolean" />
+        <attr name="load_error_net_clickable" format="boolean" />
+        <attr name="load_empty_clickable" format="boolean" />
 
         <attr name="load_current_status">
             <enum name="undo" value="0" />
