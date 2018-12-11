@@ -489,6 +489,45 @@ public class LoadView extends FrameLayout {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        setLayout();
+        super.onLayout(changed, left, top, right, bottom);
+    }
+
+    private void initView() {
+
+        mImageView = new ImageView(mContext);
+
+        mTextView = new TextView(mContext);
+        mTextView.setGravity(Gravity.CENTER);
+
+        mLinearLayout = new LinearLayout(mContext);
+        mLinearLayout.setOrientation(LinearLayout.VERTICAL);
+        mLinearLayout.setClickable(true);
+
+        mLinearLayout.addView(mImageView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mLinearLayout.addView(mTextView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mLinearLayout.setOnClickListener(new MyOnClickListener());
+
+        setImageTextSize();
+
+        addView(mLinearLayout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+
+        if (LoadManager.getInstance().getLoadingLayoutId() != 0) {
+            mLoadView = LayoutInflater.from(mContext).inflate(LoadManager.getInstance().
+                    getLoadingLayoutId(), this, false);
+        }
+        if (mLoadView == null) {
+            mProgressBar = new ProgressBar(mContext);
+            setDefaultLoadingColor();
+            mLoadView = mProgressBar;
+        }
+        addView(mLoadView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        setLayout();
+        changeView();
+    }
+
+    private void setLayout() {
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             View childView = getChildAt(i);
@@ -504,40 +543,6 @@ public class LoadView extends FrameLayout {
                         mLoadingRightMargin, mLoadingBottomMargin);
             }
         }
-        super.onLayout(changed, left, top, right, bottom);
-    }
-
-    private void initView() {
-
-        mImageView = new ImageView(mContext);
-
-        mTextView = new TextView(mContext);
-        mTextView.setGravity(Gravity.CENTER);
-
-        mLinearLayout = new LinearLayout(mContext);
-        mLinearLayout.setOrientation(LinearLayout.VERTICAL);
-        mLinearLayout.setClickable(true);
-
-        mLinearLayout.addView(mImageView);
-        mLinearLayout.addView(mTextView);
-        mLinearLayout.setOnClickListener(new MyOnClickListener());
-
-        setImageTextSize();
-
-        addView(mLinearLayout);
-
-
-        if (LoadManager.getInstance().getLoadingLayoutId() != 0) {
-            mLoadView = LayoutInflater.from(mContext).inflate(LoadManager.getInstance().
-                    getLoadingLayoutId(), this, false);
-        }
-        if (mLoadView == null) {
-            mProgressBar = new ProgressBar(mContext);
-            setDefaultLoadingColor();
-            mLoadView = mProgressBar;
-        }
-        addView(mLoadView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        changeView();
     }
 
     private void changeView() {
