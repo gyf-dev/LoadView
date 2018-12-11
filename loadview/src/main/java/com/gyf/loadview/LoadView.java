@@ -536,7 +536,7 @@ public class LoadView extends FrameLayout {
             setDefaultLoadingColor();
             mLoadView = mProgressBar;
         }
-        addView(mLoadView);
+        addView(mLoadView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         changeView();
     }
 
@@ -1266,6 +1266,8 @@ public class LoadView extends FrameLayout {
                 break;
             case 5:
                 mCurrentStatus = LoadStatus.SUCCESS;
+                break;
+            default:
                 break;
         }
     }

@@ -11,7 +11,7 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
 > android studio
 
    ```groovy
-   implementation 'com.gyf.loadview:loadview:1.0.3'
+   implementation 'com.gyf.loadview:loadview:1.0.4'
    ```
 ## 用法
 ### 简单用法
