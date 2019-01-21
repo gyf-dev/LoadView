@@ -1255,18 +1255,18 @@ public class LoadView extends FrameLayout {
         public void onClick(View v) {
             if (mCurrentStatus == LoadStatus.FAIL) {
                 if (mOnLoadFailClickListener != null) {
-                    mOnLoadFailClickListener.onLoadFailClick();
                     setCurrentStatus(LoadStatus.LOADING);
+                    mOnLoadFailClickListener.onLoadFailClick();
                 }
             } else if (mCurrentStatus == LoadStatus.ERROR_NET) {
                 if (mOnLoadErrorNetClickListener != null) {
-                    mOnLoadErrorNetClickListener.onLoadErrorNetClick();
                     setCurrentStatus(LoadStatus.LOADING);
+                    mOnLoadErrorNetClickListener.onLoadErrorNetClick();
                 }
             } else if (mCurrentStatus == LoadStatus.EMPTY) {
                 if (mOnLoadEmptyClickListener != null) {
-                    mOnLoadEmptyClickListener.onLoadEmptyClick();
                     setCurrentStatus(LoadStatus.LOADING);
+                    mOnLoadEmptyClickListener.onLoadEmptyClick();
                 }
             }
         }
