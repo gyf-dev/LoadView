@@ -202,6 +202,7 @@ public class LoadView extends FrameLayout {
     private boolean mEmptyImageColorEnabled;
     private OnLoadFailClickListener mOnLoadFailClickListener;
     private OnLoadErrorNetClickListener mOnLoadErrorNetClickListener;
+    private OnLoadEmptyClickListener mOnLoadEmptyClickListener;
 
     /**
      * The on loading listener.
@@ -553,20 +554,14 @@ public class LoadView extends FrameLayout {
                 mLinearLayout.setVisibility(GONE);
                 mLoadView.setVisibility(GONE);
                 mLinearLayout.setClickable(false);
-                if (mOnLoadingListener != null && mIsLoading) {
-                    mIsLoading = false;
-                    mOnLoadingListener.onLoadingEnd(mLoadView);
-                }
+                loadingEnd();
                 break;
             case LOADING:
                 setClickable(mIsLoadingClickable);
                 mLinearLayout.setVisibility(GONE);
                 mLoadView.setVisibility(VISIBLE);
                 mLinearLayout.setClickable(false);
-                if (mOnLoadingListener != null && !mIsLoading) {
-                    mIsLoading = true;
-                    mOnLoadingListener.onLoadingStart(mLoadView);
-                }
+                loadingStart();
                 break;
             case FAIL:
                 setClickable(mIsFailClickable);
@@ -579,10 +574,7 @@ public class LoadView extends FrameLayout {
                 mLinearLayout.setVisibility(VISIBLE);
                 mLoadView.setVisibility(GONE);
                 mLinearLayout.setClickable(true);
-                if (mOnLoadingListener != null && mIsLoading) {
-                    mIsLoading = false;
-                    mOnLoadingListener.onLoadingEnd(mLoadView);
-                }
+                loadingEnd();
                 break;
             case ERROR_NET:
                 setClickable(mIsErrorNetClickable);
@@ -595,10 +587,7 @@ public class LoadView extends FrameLayout {
                 mLinearLayout.setVisibility(VISIBLE);
                 mLoadView.setVisibility(GONE);
                 mLinearLayout.setClickable(true);
-                if (mOnLoadingListener != null && mIsLoading) {
-                    mIsLoading = false;
-                    mOnLoadingListener.onLoadingEnd(mLoadView);
-                }
+                loadingEnd();
                 break;
             case EMPTY:
                 setClickable(mIsEmptyClickable);
@@ -610,16 +599,27 @@ public class LoadView extends FrameLayout {
                 mTextView.setTextColor(mEmptyTextColor);
                 mLinearLayout.setVisibility(VISIBLE);
                 mLoadView.setVisibility(GONE);
-                mLinearLayout.setClickable(false);
-                if (mOnLoadingListener != null && mIsLoading) {
-                    mIsLoading = false;
-                    mOnLoadingListener.onLoadingEnd(mLoadView);
-                }
+                mLinearLayout.setClickable(true);
+                loadingEnd();
                 break;
             default:
                 break;
         }
         changeImageTextView();
+    }
+
+    private void loadingStart() {
+        if (mOnLoadingListener != null && !mIsLoading) {
+            mIsLoading = true;
+            mOnLoadingListener.onLoadingStart(mLoadView);
+        }
+    }
+
+    private void loadingEnd() {
+        if (mOnLoadingListener != null && mIsLoading) {
+            mIsLoading = false;
+            mOnLoadingListener.onLoadingEnd(mLoadView);
+        }
     }
 
     private void changeImageTextView() {
@@ -1190,6 +1190,26 @@ public class LoadView extends FrameLayout {
         void onLoadErrorNetClick();
     }
 
+
+    /**
+     * 设置数据为空回调监听
+     *
+     * @param listener the listener
+     */
+    public void setOnEmptyClickListener(final OnLoadEmptyClickListener listener) {
+        mOnLoadEmptyClickListener = listener;
+    }
+
+    /**
+     * 数据为空时的监听
+     */
+    public interface OnLoadEmptyClickListener {
+        /**
+         * 数据为空点击事件
+         */
+        void onLoadEmptyClick();
+    }
+
     /**
      * 加载监听
      *
@@ -1241,6 +1261,11 @@ public class LoadView extends FrameLayout {
             } else if (mCurrentStatus == LoadStatus.ERROR_NET) {
                 if (mOnLoadErrorNetClickListener != null) {
                     mOnLoadErrorNetClickListener.onLoadErrorNetClick();
+                    setCurrentStatus(LoadStatus.LOADING);
+                }
+            } else if (mCurrentStatus == LoadStatus.EMPTY) {
+                if (mOnLoadEmptyClickListener != null) {
+                    mOnLoadEmptyClickListener.onLoadEmptyClick();
                     setCurrentStatus(LoadStatus.LOADING);
                 }
             }

@@ -11,7 +11,7 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
 > android studio
 
    ```groovy
-   implementation 'com.gyf.loadview:loadview:1.0.5'
+   implementation 'com.gyf.loadview:loadview:1.0.6'
    ```
 ## 用法
 ### 简单用法
@@ -92,6 +92,16 @@ android loadview是一个可以灵活自定义并且可以结合第三方动画�
                    }
                });
     ```
+  >设置数据为空点击事件
+     ```java
+       loadView.setOnEmptyClickListener(new LoadView.OnLoadEmptyClickListener() {
+                   @Override
+                   public void onLoadEmptyClick() {
+                       // do something，比如重新获取数据等
+                   }
+               });
+   ```
+        
   >设置加载中监听
   ```java
      loadView.setOnLoadingListener(new LoadView.OnLoadingListener() {

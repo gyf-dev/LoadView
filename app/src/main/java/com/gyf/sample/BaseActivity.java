@@ -15,7 +15,7 @@ import java.util.List;
  * @date 2018/7/2 下午12:24
  */
 public class BaseActivity extends AppCompatActivity implements LoadView.OnLoadFailClickListener,
-        LoadView.OnLoadingListener, LoadView.OnLoadErrorNetClickListener {
+        LoadView.OnLoadingListener, LoadView.OnLoadErrorNetClickListener, LoadView.OnLoadEmptyClickListener {
 
     public RecordAdapter mAdapter = new RecordAdapter();
     public List<String> mData = new ArrayList<>();
@@ -26,7 +26,7 @@ public class BaseActivity extends AppCompatActivity implements LoadView.OnLoadFa
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null){
+        if (actionBar != null) {
             actionBar.setElevation(0);
         }
         FrameLayout frameLayout = getWindow().getDecorView().findViewById(android.R.id.content);
@@ -34,6 +34,7 @@ public class BaseActivity extends AppCompatActivity implements LoadView.OnLoadFa
         mLoadView.setOnFailClickListener(this);
         mLoadView.setOnLoadingListener(this);
         mLoadView.setOnErrorNetClickListener(this);
+        mLoadView.setOnEmptyClickListener(this);
         frameLayout.addView(mLoadView);
     }
 
@@ -55,5 +56,10 @@ public class BaseActivity extends AppCompatActivity implements LoadView.OnLoadFa
     @Override
     public void onLoadErrorNetClick() {
         mAdapter.addData("网络错误点击事件");
+    }
+
+    @Override
+    public void onLoadEmptyClick() {
+        mAdapter.addData("数据为空点击事件");
     }
 }

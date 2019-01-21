@@ -181,6 +181,12 @@ public class MainActivity extends BaseActivity {
         setStatus();
     }
 
+    @Override
+    public void onLoadEmptyClick() {
+        super.onLoadEmptyClick();
+        setStatus();
+    }
+
     private void setStatus() {
         new Handler().postDelayed(new Runnable() {
             @Override
